@@ -22,3 +22,6 @@ coverage.json
 
 temp-artifacts
 contracts/hardhat-dependency-compiler
+
+artifacts-zk
+cache-zk

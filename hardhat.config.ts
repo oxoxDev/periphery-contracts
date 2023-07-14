@@ -18,6 +18,7 @@ import '@matterlabs/hardhat-zksync-solc';
 import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
+export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 const DEFAULT_BLOCK_GAS_LIMIT = 12450000;
 const MAINNET_FORK = process.env.MAINNET_FORK === 'true';
 const TENDERLY_PROJECT = process.env.TENDERLY_PROJECT || '';
@@ -35,7 +36,52 @@ const mainnetFork = MAINNET_FORK
 // export hardhat config
 const config: HardhatUserConfig = {
   defaultNetwork: 'zkSyncTestnet',
-
+  zksolc: {
+    version: '1.3.13',
+    settings: {
+      libraries: {
+        '@aave/core-v3/contracts/protocol/libraries/logic/GenericLogic.sol': {
+          GenericLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/BridgeLogic.sol': {
+          BridgeLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/ConfiguratorLogic.sol': {
+          ConfiguratorLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/ReserveLogic.sol': {
+          ReserveLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/PoolLogic.sol': {
+          PoolLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/EModeLogic.sol': {
+          EModeLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/LiquidationLogic.sol': {
+          LiquidationLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/SupplyLogic.sol': {
+          SupplyLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/CalldataLogic.sol': {
+          CalldataLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/ValidationLogic.sol': {
+          ValidationLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/FlashLoanLogic.sol': {
+          FlashLoanLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/IsolationModeLogic.sol': {
+          IsolationModeLogic: ZERO_ADDRESS,
+        },
+        '@aave/core-v3/contracts/protocol/libraries/logic/BorrowLogic.sol': {
+          BorrowLogic: ZERO_ADDRESS,
+        },
+      },
+    },
+  },
   solidity: {
     compilers: [
       {
