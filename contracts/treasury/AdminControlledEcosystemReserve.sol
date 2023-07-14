@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.12;
 
 import {IERC20} from '@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20.sol';
 import {IAdminControlledEcosystemReserve} from './interfaces/IAdminControlledEcosystemReserve.sol';
@@ -44,20 +44,12 @@ abstract contract AdminControlledEcosystemReserve is
   }
 
   /// @inheritdoc IAdminControlledEcosystemReserve
-  function approve(
-    IERC20 token,
-    address recipient,
-    uint256 amount
-  ) external onlyFundsAdmin {
+  function approve(IERC20 token, address recipient, uint256 amount) external onlyFundsAdmin {
     token.safeApprove(recipient, amount);
   }
 
   /// @inheritdoc IAdminControlledEcosystemReserve
-  function transfer(
-    IERC20 token,
-    address recipient,
-    uint256 amount
-  ) external onlyFundsAdmin {
+  function transfer(IERC20 token, address recipient, uint256 amount) external onlyFundsAdmin {
     require(recipient != address(0), 'INVALID_0X_RECIPIENT');
 
     if (address(token) == ETH_MOCK_ADDRESS) {

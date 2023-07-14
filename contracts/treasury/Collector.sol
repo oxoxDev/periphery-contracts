@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.12;
 
 import {VersionedInitializable} from '@aave/core-v3/contracts/protocol/libraries/aave-upgradeability/VersionedInitializable.sol';
 import {IERC20} from '@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20.sol';
@@ -46,20 +46,12 @@ contract Collector is VersionedInitializable, ICollector {
   }
 
   /// @inheritdoc ICollector
-  function approve(
-    IERC20 token,
-    address recipient,
-    uint256 amount
-  ) external onlyFundsAdmin {
+  function approve(IERC20 token, address recipient, uint256 amount) external onlyFundsAdmin {
     token.approve(recipient, amount);
   }
 
   /// @inheritdoc ICollector
-  function transfer(
-    IERC20 token,
-    address recipient,
-    uint256 amount
-  ) external onlyFundsAdmin {
+  function transfer(IERC20 token, address recipient, uint256 amount) external onlyFundsAdmin {
     token.transfer(recipient, amount);
   }
 

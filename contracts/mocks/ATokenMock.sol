@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.12;
 
 import {IRewardsController} from '../rewards/interfaces/IRewardsController.sol';
 
@@ -31,11 +31,7 @@ contract ATokenMock {
     _decimals = decimals;
   }
 
-  function handleActionOnAic(
-    address user,
-    uint256 totalSupply,
-    uint256 userBalance
-  ) external {
+  function handleActionOnAic(address user, uint256 totalSupply, uint256 userBalance) external {
     _aic.handleAction(user, totalSupply, userBalance);
   }
 

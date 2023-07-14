@@ -12,6 +12,9 @@ import 'solidity-coverage';
 import 'hardhat-dependency-compiler';
 import 'hardhat-deploy';
 
+import '@matterlabs/hardhat-zksync-deploy';
+import '@matterlabs/hardhat-zksync-solc';
+
 import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
@@ -31,8 +34,17 @@ const mainnetFork = MAINNET_FORK
 
 // export hardhat config
 const config: HardhatUserConfig = {
+  defaultNetwork: 'zkSyncTestnet',
+
   solidity: {
     compilers: [
+      {
+        version: '0.8.12',
+        settings: {
+          optimizer: { enabled: true, runs: 25000 },
+          evmVersion: 'london',
+        },
+      },
       {
         version: '0.8.10',
         settings: {
@@ -75,6 +87,12 @@ const config: HardhatUserConfig = {
       })),
       forking: mainnetFork,
       allowUnlimitedContractSize: true,
+      zksync: false,
+    },
+    zkSyncTestnet: {
+      url: 'https://testnet.era.zksync.dev',
+      ethNetwork: 'goerli', // or a Goerli RPC endpoint from Infura/Alchemy/Chainstack etc.
+      zksync: true,
     },
     ganache: {
       url: 'http://ganache:8545',

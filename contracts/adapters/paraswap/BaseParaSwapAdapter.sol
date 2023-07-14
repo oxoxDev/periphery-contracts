@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.12;
 
 import {DataTypes} from '@aave/core-v3/contracts/protocol/libraries/types/DataTypes.sol';
 import {FlashLoanSimpleReceiverBase} from '@aave/core-v3/contracts/flashloan/base/FlashLoanSimpleReceiverBase.sol';
@@ -49,7 +49,9 @@ abstract contract BaseParaSwapAdapter is FlashLoanSimpleReceiverBase, Ownable {
     uint256 receivedAmount
   );
 
-  constructor(IPoolAddressesProvider addressesProvider) FlashLoanSimpleReceiverBase(addressesProvider) {
+  constructor(
+    IPoolAddressesProvider addressesProvider
+  ) FlashLoanSimpleReceiverBase(addressesProvider) {
     ORACLE = IPriceOracleGetter(addressesProvider.getPriceOracle());
   }
 

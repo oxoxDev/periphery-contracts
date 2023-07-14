@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.12;
 
 import {ITransferStrategyBase} from '../rewards/interfaces/ITransferStrategyBase.sol';
 import {TransferStrategyBase} from '../rewards/transfer-strategies/TransferStrategyBase.sol';
@@ -17,9 +17,10 @@ contract MockBadTransferStrategy is TransferStrategyBase {
   // Added storage variable to prevent warnings at compilation for performTransfer
   uint256 ignoreWarning;
 
-  constructor(address incentivesController, address rewardsAdmin)
-    TransferStrategyBase(incentivesController, rewardsAdmin)
-  {}
+  constructor(
+    address incentivesController,
+    address rewardsAdmin
+  ) TransferStrategyBase(incentivesController, rewardsAdmin) {}
 
   /// @inheritdoc TransferStrategyBase
   function performTransfer(

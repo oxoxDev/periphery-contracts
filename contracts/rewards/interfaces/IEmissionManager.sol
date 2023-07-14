@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.12;
 
 import {IEACAggregatorProxy} from '../../misc/interfaces/IEACAggregatorProxy.sol';
 import {RewardsDataTypes} from '../libraries/RewardsDataTypes.sol';
@@ -66,11 +66,7 @@ interface IEmissionManager {
    * @param reward The reward token that incentives the asset
    * @param newDistributionEnd The end date of the incentivization, in unix time format
    **/
-  function setDistributionEnd(
-    address asset,
-    address reward,
-    uint32 newDistributionEnd
-  ) external;
+  function setDistributionEnd(address asset, address reward, uint32 newDistributionEnd) external;
 
   /**
    * @dev Sets the emission per second of a set of reward distributions

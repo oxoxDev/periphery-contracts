@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.12;
 
 interface IStreamable {
   struct Stream {
@@ -36,7 +36,9 @@ interface IStreamable {
 
   function balanceOf(uint256 streamId, address who) external view returns (uint256 balance);
 
-  function getStream(uint256 streamId)
+  function getStream(
+    uint256 streamId
+  )
     external
     view
     returns (

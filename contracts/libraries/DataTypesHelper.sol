@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.12;
 
 import {IERC20} from '@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20.sol';
 import {DataTypes} from '@aave/core-v3/contracts/protocol/libraries/types/DataTypes.sol';
@@ -17,11 +17,10 @@ library DataTypesHelper {
    * @return The stable debt balance
    * @return The variable debt balance
    **/
-  function getUserCurrentDebt(address user, DataTypes.ReserveData memory reserve)
-    internal
-    view
-    returns (uint256, uint256)
-  {
+  function getUserCurrentDebt(
+    address user,
+    DataTypes.ReserveData memory reserve
+  ) internal view returns (uint256, uint256) {
     return (
       IERC20(reserve.stableDebtTokenAddress).balanceOf(user),
       IERC20(reserve.variableDebtTokenAddress).balanceOf(user)

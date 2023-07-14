@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.12;
 
 import {Ownable} from '@aave/core-v3/contracts/dependencies/openzeppelin/contracts/Ownable.sol';
 import {IEACAggregatorProxy} from '../misc/interfaces/IEACAggregatorProxy.sol';
@@ -44,20 +44,18 @@ contract EmissionManager is Ownable, IEmissionManager {
   }
 
   /// @inheritdoc IEmissionManager
-  function setTransferStrategy(address reward, ITransferStrategyBase transferStrategy)
-    external
-    override
-    onlyEmissionAdmin(reward)
-  {
+  function setTransferStrategy(
+    address reward,
+    ITransferStrategyBase transferStrategy
+  ) external override onlyEmissionAdmin(reward) {
     _rewardsController.setTransferStrategy(reward, transferStrategy);
   }
 
   /// @inheritdoc IEmissionManager
-  function setRewardOracle(address reward, IEACAggregatorProxy rewardOracle)
-    external
-    override
-    onlyEmissionAdmin(reward)
-  {
+  function setRewardOracle(
+    address reward,
+    IEACAggregatorProxy rewardOracle
+  ) external override onlyEmissionAdmin(reward) {
     _rewardsController.setRewardOracle(reward, rewardOracle);
   }
 
