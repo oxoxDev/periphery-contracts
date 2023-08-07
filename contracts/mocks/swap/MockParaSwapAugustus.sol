@@ -3,8 +3,8 @@ pragma solidity ^0.8.12;
 
 import {IParaSwapAugustus} from '../../adapters/paraswap/interfaces/IParaSwapAugustus.sol';
 import {MockParaSwapTokenTransferProxy} from './MockParaSwapTokenTransferProxy.sol';
-import {IERC20} from '@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20.sol';
-import {MintableERC20} from '@aave/core-v3/contracts/mocks/tokens/MintableERC20.sol';
+import {IERC20} from '@zerolendxyz/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20.sol';
+import {MintableERC20} from '@zerolendxyz/core-v3/contracts/mocks/tokens/MintableERC20.sol';
 
 contract MockParaSwapAugustus is IParaSwapAugustus {
   MockParaSwapTokenTransferProxy immutable TOKEN_TRANSFER_PROXY;

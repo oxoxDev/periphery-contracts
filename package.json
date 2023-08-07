@@ -1,10 +1,11 @@
 {
-  "name": "@aave/periphery-v3",
-  "version": "2.4.1",
-  "description": "Aave Protocol V3 periphery smart contracts",
+  "name": "@zerolendxyz/periphery-v3",
+  "version": "2.4.2",
+  "description": "zerolend Protocol periphery smart contracts",
   "files": [
     "contracts",
-    "artifacts"
+    "artifacts",
+    "artifacts-zk"
   ],
   "scripts": {
     "run-env": "npm i && tail -f /dev/null",
@@ -87,6 +88,6 @@
     "url": "git://github.com/aave/aave-v3-periphery"
   },
   "dependencies": {
-    "@aave/core-v3": "file:../aave-v3-core"
+    "@zerolendxyz/core-v3": "^1.19.1"
   }
 }

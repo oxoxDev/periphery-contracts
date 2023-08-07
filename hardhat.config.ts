@@ -40,43 +40,43 @@ const config: HardhatUserConfig = {
     version: '1.3.13',
     settings: {
       libraries: {
-        '@aave/core-v3/contracts/protocol/libraries/logic/GenericLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/GenericLogic.sol': {
           GenericLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/BridgeLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/BridgeLogic.sol': {
           BridgeLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/ConfiguratorLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/ConfiguratorLogic.sol': {
           ConfiguratorLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/ReserveLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/ReserveLogic.sol': {
           ReserveLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/PoolLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/PoolLogic.sol': {
           PoolLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/EModeLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/EModeLogic.sol': {
           EModeLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/LiquidationLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/LiquidationLogic.sol': {
           LiquidationLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/SupplyLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/SupplyLogic.sol': {
           SupplyLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/CalldataLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/CalldataLogic.sol': {
           CalldataLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/ValidationLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/ValidationLogic.sol': {
           ValidationLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/FlashLoanLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/FlashLoanLogic.sol': {
           FlashLoanLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/IsolationModeLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/IsolationModeLogic.sol': {
           IsolationModeLogic: ZERO_ADDRESS,
         },
-        '@aave/core-v3/contracts/protocol/libraries/logic/BorrowLogic.sol': {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/BorrowLogic.sol': {
           BorrowLogic: ZERO_ADDRESS,
         },
       },
@@ -108,10 +108,10 @@ const config: HardhatUserConfig = {
   typechain: {
     outDir: 'types',
     externalArtifacts: [
-      'node_modules/@aave/core-v3/artifacts/contracts/**/*[!dbg].json',
-      'node_modules/@aave/core-v3/artifacts/contracts/**/**/*[!dbg].json',
-      'node_modules/@aave/core-v3/artifacts/contracts/**/**/**/*[!dbg].json',
-      'node_modules/@aave/core-v3/artifacts/contracts/mocks/tokens/WETH9Mocked.sol/WETH9Mocked.json',
+      'node_modules/@zerolendxyz/core-v3/artifacts/contracts/**/*[!dbg].json',
+      'node_modules/@zerolendxyz/core-v3/artifacts/contracts/**/**/*[!dbg].json',
+      'node_modules/@zerolendxyz/core-v3/artifacts/contracts/**/**/**/*[!dbg].json',
+      'node_modules/@zerolendxyz/core-v3/artifacts/contracts/mocks/tokens/WETH9Mocked.sol/WETH9Mocked.json',
     ],
   },
   gasReporter: {
@@ -186,51 +186,51 @@ const config: HardhatUserConfig = {
   // Need to compile aave-v3 contracts due no way to import external artifacts for hre.ethers
   dependencyCompiler: {
     paths: [
-      '@aave/core-v3/contracts/protocol/configuration/PoolAddressesProviderRegistry.sol',
-      '@aave/core-v3/contracts/protocol/configuration/PoolAddressesProvider.sol',
-      '@aave/core-v3/contracts/misc/AaveOracle.sol',
-      '@aave/core-v3/contracts/protocol/tokenization/AToken.sol',
-      '@aave/core-v3/contracts/protocol/tokenization/DelegationAwareAToken.sol',
-      '@aave/core-v3/contracts/protocol/tokenization/StableDebtToken.sol',
-      '@aave/core-v3/contracts/protocol/tokenization/VariableDebtToken.sol',
-      '@aave/core-v3/contracts/protocol/libraries/logic/GenericLogic.sol',
-      '@aave/core-v3/contracts/protocol/libraries/logic/ValidationLogic.sol',
-      '@aave/core-v3/contracts/protocol/libraries/logic/ReserveLogic.sol',
-      '@aave/core-v3/contracts/protocol/libraries/logic/SupplyLogic.sol',
-      '@aave/core-v3/contracts/protocol/libraries/logic/EModeLogic.sol',
-      '@aave/core-v3/contracts/protocol/libraries/logic/BorrowLogic.sol',
-      '@aave/core-v3/contracts/protocol/libraries/logic/BridgeLogic.sol',
-      '@aave/core-v3/contracts/protocol/libraries/logic/FlashLoanLogic.sol',
-      '@aave/core-v3/contracts/protocol/pool/Pool.sol',
-      '@aave/core-v3/contracts/protocol/pool/PoolConfigurator.sol',
-      '@aave/core-v3/contracts/protocol/pool/DefaultReserveInterestRateStrategy.sol',
-      '@aave/core-v3/contracts/dependencies/openzeppelin/upgradeability/InitializableAdminUpgradeabilityProxy.sol',
-      '@aave/core-v3/contracts/protocol/libraries/aave-upgradeability/InitializableImmutableAdminUpgradeabilityProxy.sol',
-      '@aave/core-v3/contracts/deployments/ReservesSetupHelper.sol',
-      '@aave/core-v3/contracts/misc/AaveProtocolDataProvider.sol',
-      '@aave/core-v3/contracts/protocol/configuration/ACLManager.sol',
-      '@aave/core-v3/contracts/dependencies/weth/WETH9.sol',
-      '@aave/core-v3/contracts/mocks/helpers/MockIncentivesController.sol',
-      '@aave/core-v3/contracts/mocks/helpers/MockReserveConfiguration.sol',
-      '@aave/core-v3/contracts/mocks/oracle/CLAggregators/MockAggregator.sol',
-      '@aave/core-v3/contracts/mocks/tokens/MintableERC20.sol',
-      '@aave/core-v3/contracts/mocks/flashloan/MockFlashLoanReceiver.sol',
-      '@aave/core-v3/contracts/mocks/tokens/WETH9Mocked.sol',
-      '@aave/core-v3/contracts/mocks/upgradeability/MockVariableDebtToken.sol',
-      '@aave/core-v3/contracts/mocks/upgradeability/MockAToken.sol',
-      '@aave/core-v3/contracts/mocks/upgradeability/MockStableDebtToken.sol',
-      '@aave/core-v3/contracts/mocks/upgradeability/MockInitializableImplementation.sol',
-      '@aave/core-v3/contracts/mocks/helpers/MockPool.sol',
-      '@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20Detailed.sol',
-      '@aave/core-v3/contracts/mocks/oracle/PriceOracle.sol',
-      '@aave/core-v3/contracts/mocks/tokens/MintableDelegationERC20.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/configuration/PoolAddressesProviderRegistry.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/configuration/PoolAddressesProvider.sol',
+      '@zerolendxyz/core-v3/contracts/misc/AaveOracle.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/tokenization/AToken.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/tokenization/DelegationAwareAToken.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/tokenization/StableDebtToken.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/tokenization/VariableDebtToken.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/GenericLogic.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/ValidationLogic.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/ReserveLogic.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/SupplyLogic.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/EModeLogic.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/BorrowLogic.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/BridgeLogic.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/FlashLoanLogic.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/pool/Pool.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/pool/PoolConfigurator.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/pool/DefaultReserveInterestRateStrategy.sol',
+      '@zerolendxyz/core-v3/contracts/dependencies/openzeppelin/upgradeability/InitializableAdminUpgradeabilityProxy.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/libraries/aave-upgradeability/InitializableImmutableAdminUpgradeabilityProxy.sol',
+      '@zerolendxyz/core-v3/contracts/deployments/ReservesSetupHelper.sol',
+      '@zerolendxyz/core-v3/contracts/misc/AaveProtocolDataProvider.sol',
+      '@zerolendxyz/core-v3/contracts/protocol/configuration/ACLManager.sol',
+      '@zerolendxyz/core-v3/contracts/dependencies/weth/WETH9.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/helpers/MockIncentivesController.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/helpers/MockReserveConfiguration.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/oracle/CLAggregators/MockAggregator.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/tokens/MintableERC20.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/flashloan/MockFlashLoanReceiver.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/tokens/WETH9Mocked.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/upgradeability/MockVariableDebtToken.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/upgradeability/MockAToken.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/upgradeability/MockStableDebtToken.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/upgradeability/MockInitializableImplementation.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/helpers/MockPool.sol',
+      '@zerolendxyz/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20Detailed.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/oracle/PriceOracle.sol',
+      '@zerolendxyz/core-v3/contracts/mocks/tokens/MintableDelegationERC20.sol',
     ],
   },
   external: {
     contracts: [
       {
         artifacts: './temp-artifacts',
-        deploy: 'node_modules/@aave/deploy-v3/dist/deploy',
+        deploy: 'node_modules/@zerolendxyz/deploy-v3/dist/deploy',
       },
     ],
   },
