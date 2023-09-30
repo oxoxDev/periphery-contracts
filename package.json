@@ -1,6 +1,6 @@
 {
   "name": "@zerolendxyz/periphery-v3",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "zerolend Protocol periphery smart contracts",
   "files": [
     "contracts",
@@ -88,6 +88,7 @@
     "url": "git://github.com/aave/aave-v3-periphery"
   },
   "dependencies": {
+    "@pythnetwork/pyth-sdk-solidity": "2.2.1",
     "@zerolendxyz/core-v3": "^1.19.1"
   }
 }

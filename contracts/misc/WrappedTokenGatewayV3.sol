@@ -193,7 +193,7 @@ contract WrappedTokenGatewayV3 is IWrappedTokenGatewayV3, Ownable {
   /**
    * @dev Only WETH contract is allowed to transfer ETH here. Prevent other addresses to send Ether to this contract.
    */
-  receive() external payable {
+  receive() external payable virtual {
     require(msg.sender == address(WETH), 'Receive not allowed');
   }
 

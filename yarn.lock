@@ -929,6 +929,11 @@
   resolved "https://registry.yarnpkg.com/@nomiclabs/hardhat-waffle/-/hardhat-waffle-2.0.6.tgz#d11cb063a5f61a77806053e54009c40ddee49a54"
   integrity sha512-+Wz0hwmJGSI17B+BhU/qFRZ1l6/xMW82QGXE/Gi+WTmwgJrQefuBs1lIf7hzQ1hLk6hpkvb/zwcNkpVKRYTQYg==
 
+"@pythnetwork/pyth-sdk-solidity@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@pythnetwork/pyth-sdk-solidity/-/pyth-sdk-solidity-2.2.1.tgz#604e71840b68d688281a64369e377dfc7109173e"
+  integrity sha512-Tb/5fWrQBRZ+IHDQVz3GiHh6+ZbgeS/muaNosJrD94cuL6DuAwcr7yEgMq4DrlPSrb+x7Vw8d5NMOvpsC7+Vlw==
+
 "@resolver-engine/core@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@resolver-engine/core/-/core-0.3.3.tgz#590f77d85d45bc7ecc4e06c654f41345db6ca967"
