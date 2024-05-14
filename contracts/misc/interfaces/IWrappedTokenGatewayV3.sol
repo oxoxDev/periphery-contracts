@@ -20,13 +20,13 @@ interface IWrappedTokenGatewayV3 {
     uint16 referralCode
   ) external;
 
-  function withdrawETHWithPermit(
-    address pool,
-    uint256 amount,
-    address to,
-    uint256 deadline,
-    uint8 permitV,
-    bytes32 permitR,
-    bytes32 permitS
-  ) external;
+  // function withdrawETHWithPermit(
+  //   address pool,
+  //   uint256 amount,
+  //   address to,
+  //   uint256 deadline,
+  //   uint8 permitV,
+  //   bytes32 permitR,
+  //   bytes32 permitS
+  // ) external;
 }

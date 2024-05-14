@@ -89,6 +89,6 @@
   },
   "dependencies": {
     "@pythnetwork/pyth-sdk-solidity": "2.2.1",
-    "@zerolendxyz/core-v3": "^1.19.1"
+    "@zerolendxyz/core-v3": "^2.19.0"
   }
 }

@@ -12,9 +12,13 @@ import 'solidity-coverage';
 import 'hardhat-dependency-compiler';
 import 'hardhat-deploy';
 
+import '@matterlabs/hardhat-zksync-deploy';
+import '@matterlabs/hardhat-zksync-solc';
+
 import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
+export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 const DEFAULT_BLOCK_GAS_LIMIT = 12450000;
 const MAINNET_FORK = process.env.MAINNET_FORK === 'true';
 const TENDERLY_PROJECT = process.env.TENDERLY_PROJECT || '';
@@ -31,6 +35,38 @@ const mainnetFork = MAINNET_FORK
 
 // export hardhat config
 const config: HardhatUserConfig = {
+  defaultNetwork: 'zkSyncTestnet',
+  zksolc: {
+    version: '1.3.13',
+    settings: {
+      libraries: {
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/BridgeLogic.sol': {
+          BridgeLogic: '0x6CDe8a8cEE9771A30dE4fEAB8eaccb58cb0d30aF',
+        },
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/ConfiguratorLogic.sol': {
+          ConfiguratorLogic: '0x8731d4E5b990025143609F4A40eC80Fb482E46A0',
+        },
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/PoolLogic.sol': {
+          PoolLogic: '0xA8D16FB0620E3376093cb89e2cD9dEF9fE47Daaa',
+        },
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/EModeLogic.sol': {
+          EModeLogic: '0xD84E953a621bb9D81Dc998E0b1482D2916153c23',
+        },
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/LiquidationLogic.sol': {
+          LiquidationLogic: '0x1962271C81e9734dC201312350a1D19351B7C4Ac',
+        },
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/SupplyLogic.sol': {
+          SupplyLogic: '0x9223dC9205Cf8336CA59bA0bD390647E62D487E5',
+        },
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/FlashLoanLogic.sol': {
+          FlashLoanLogic: '0xBD93e7f228d56ACd10182D1C92283809e8521633',
+        },
+        '@zerolendxyz/core-v3/contracts/protocol/libraries/logic/BorrowLogic.sol': {
+          BorrowLogic: '0x81D6b98Beb0A4288dCFab724FDeaE52E5Aa2F7b1',
+        },
+      },
+    },
+  },
   solidity: {
     compilers: [
       {
@@ -82,6 +118,12 @@ const config: HardhatUserConfig = {
       })),
       forking: mainnetFork,
       allowUnlimitedContractSize: true,
+      zksync: false,
+    },
+    zkSyncTestnet: {
+      url: 'https://testnet.era.zksync.dev',
+      ethNetwork: 'goerli', // or a Goerli RPC endpoint from Infura/Alchemy/Chainstack etc.
+      zksync: true,
     },
     ganache: {
       url: 'http://ganache:8545',
