@@ -9,6 +9,7 @@ import {IRewardsController} from './interfaces/IRewardsController.sol';
 import {ITransferStrategyBase} from './interfaces/ITransferStrategyBase.sol';
 import {RewardsDataTypes} from './libraries/RewardsDataTypes.sol';
 import {IEACAggregatorProxy} from '../misc/interfaces/IEACAggregatorProxy.sol';
+import {IOmnichainStaking} from './interfaces/IOmnichainStaking.sol';
 
 /**
  * @title RewardsController
@@ -36,12 +37,20 @@ contract RewardsController is RewardsDistributor, VersionedInitializable, IRewar
   // a check to see if the provided reward oracle contains `latestAnswer`.
   mapping(address => IEACAggregatorProxy) internal _rewardOracle;
 
+  uint256 maxBoostRequirement;
+  IOmnichainStaking public omnichainStaking;
+
   modifier onlyAuthorizedClaimers(address claimer, address user) {
     require(_authorizedClaimers[user] == claimer, 'CLAIMER_UNAUTHORIZED');
     _;
   }
 
-  constructor(address emissionManager) RewardsDistributor(emissionManager) {}
+  constructor(
+    address emissionManager,
+    address _omnichainStaking
+  ) RewardsDistributor(emissionManager) {
+    omnichainStaking = IOmnichainStaking(_omnichainStaking);
+  }
 
   /**
    * @dev Initialize for RewardsController
@@ -107,7 +116,8 @@ contract RewardsController is RewardsDistributor, VersionedInitializable, IRewar
 
   /// @inheritdoc IRewardsController
   function handleAction(address user, uint256 totalSupply, uint256 userBalance) external override {
-    _updateData(msg.sender, user, userBalance, totalSupply);
+    uint256 boostedBalance = boostedBalance(user, userBalance);
+    _updateData(msg.sender, user, boostedBalance, totalSupply);
   }
 
   /// @inheritdoc IRewardsController
@@ -179,6 +189,21 @@ contract RewardsController is RewardsDistributor, VersionedInitializable, IRewar
   function setClaimer(address user, address caller) external override onlyEmissionManager {
     _authorizedClaimers[user] = caller;
     emit ClaimerSet(user, caller);
+  }
+
+  /**
+   * @dev Calculates the boosted balance for an account.
+   * @param account The address of the account for which to calculate the boosted balance.
+   * @return The boosted balance of the account.
+   **/
+  function boostedBalance(address account, uint256 balance) public view returns (uint256) {
+    uint256 _boosted = (balance * 20) / 100;
+    uint256 _stake = IOmnichainStaking.balanceOf(account);
+
+    uint256 _adjusted = ((_balance * _stake * 80) / maxBoostRequirement) / 100;
+
+    // because of this we are able to max out the boost by 5x
+    return Math.min(_derived + _adjusted, balance);
   }
 
   /**
