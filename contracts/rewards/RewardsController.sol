@@ -9,7 +9,7 @@ import {IRewardsController} from './interfaces/IRewardsController.sol';
 import {ITransferStrategyBase} from './interfaces/ITransferStrategyBase.sol';
 import {RewardsDataTypes} from './libraries/RewardsDataTypes.sol';
 import {IEACAggregatorProxy} from '../misc/interfaces/IEACAggregatorProxy.sol';
-import {IOmnichainStaking} from './interfaces/IOmnichainStaking.sol';
+import {IVotes} from '../dependencies/openzeppelin/IVotes.sol';
 
 /**
  * @title RewardsController
@@ -37,19 +37,17 @@ contract RewardsController is RewardsDistributor, VersionedInitializable, IRewar
   // a check to see if the provided reward oracle contains `latestAnswer`.
   mapping(address => IEACAggregatorProxy) internal _rewardOracle;
 
-  uint256 maxBoostRequirement;
-  IOmnichainStaking public omnichainStaking;
+  uint256 public immutable maxBoostRequirement;
+  IVotes public immutable staking;
 
   modifier onlyAuthorizedClaimers(address claimer, address user) {
     require(_authorizedClaimers[user] == claimer, 'CLAIMER_UNAUTHORIZED');
     _;
   }
 
-  constructor(
-    address emissionManager,
-    address _omnichainStaking
-  ) RewardsDistributor(emissionManager) {
-    omnichainStaking = IOmnichainStaking(_omnichainStaking);
+  constructor(address _emissionManager, address _staking) RewardsDistributor(_emissionManager) {
+    staking = IVotes(_staking);
+    maxBoostRequirement = 10000000; // 10mil ZERO for max boost
   }
 
   /**
@@ -116,8 +114,8 @@ contract RewardsController is RewardsDistributor, VersionedInitializable, IRewar
 
   /// @inheritdoc IRewardsController
   function handleAction(address user, uint256 totalSupply, uint256 userBalance) external override {
-    uint256 boostedBalance = boostedBalance(user, userBalance);
-    _updateData(msg.sender, user, boostedBalance, totalSupply);
+    uint256 boosted = boostedBalance(user, userBalance);
+    _updateData(msg.sender, user, boosted, totalSupply);
   }
 
   /// @inheritdoc IRewardsController
@@ -198,12 +196,13 @@ contract RewardsController is RewardsDistributor, VersionedInitializable, IRewar
    **/
   function boostedBalance(address account, uint256 balance) public view returns (uint256) {
     uint256 _boosted = (balance * 20) / 100;
-    uint256 _stake = IOmnichainStaking.balanceOf(account);
+    uint256 _stake = staking.getVotes(account);
 
-    uint256 _adjusted = ((_balance * _stake * 80) / maxBoostRequirement) / 100;
+    uint256 _adjusted = ((balance * _stake * 80) / maxBoostRequirement) / 100;
 
     // because of this we are able to max out the boost by 5x
-    return Math.min(_derived + _adjusted, balance);
+    uint256 _boostedBalance = _boosted + _adjusted;
+    return _boostedBalance > balance ? balance : _boostedBalance;
   }
 
   /**
