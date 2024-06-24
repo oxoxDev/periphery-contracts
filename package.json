@@ -1,6 +1,6 @@
 {
   "name": "@zerolendxyz/periphery-v3",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "zerolend Protocol periphery smart contracts",
   "files": [
     "contracts",
