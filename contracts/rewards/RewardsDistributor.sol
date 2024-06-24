@@ -371,8 +371,6 @@ abstract contract RewardsDistributor is IRewardsDistributor {
     uint256 userBalance,
     uint256 totalSupply
   ) internal {
-    // redo boosted balance
-
     uint256 assetUnit;
     uint256 numAvailableRewards = _assets[asset].availableRewardsCount;
     unchecked {
