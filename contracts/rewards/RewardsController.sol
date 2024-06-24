@@ -47,7 +47,7 @@ contract RewardsController is RewardsDistributor, VersionedInitializable, IRewar
 
   constructor(address _emissionManager, address _staking) RewardsDistributor(_emissionManager) {
     staking = IVotes(_staking);
-    maxBoostRequirement = 10000000; // 10mil ZERO for max boost
+    maxBoostRequirement = 50000000; // 50mil ZERO for max boost
   }
 
   /**
