@@ -6,6 +6,7 @@ import {IERC20Detailed} from '@zerolendxyz/core-v3/contracts/dependencies/openze
 import {SafeCast} from '@zerolendxyz/core-v3/contracts/dependencies/openzeppelin/contracts/SafeCast.sol';
 import {IRewardsDistributor} from './interfaces/IRewardsDistributor.sol';
 import {RewardsDataTypes} from './libraries/RewardsDataTypes.sol';
+import {IVotes} from '../dependencies/openzeppelin/IVotes.sol';
 
 /**
  * @title RewardsDistributor
@@ -32,13 +33,18 @@ abstract contract RewardsDistributor is IRewardsDistributor {
   // Assets list
   address[] internal _assetsList;
 
+  uint256 public immutable maxBoostRequirement;
+  IVotes public immutable staking;
+
   modifier onlyEmissionManager() {
     require(msg.sender == EMISSION_MANAGER, 'ONLY_EMISSION_MANAGER');
     _;
   }
 
-  constructor(address emissionManager) {
+  constructor(address emissionManager, address _staking) {
     EMISSION_MANAGER = emissionManager;
+    staking = IVotes(_staking);
+    maxBoostRequirement = 50000000; // 50mil ZERO for max boost
   }
 
   /// @inheritdoc IRewardsDistributor
@@ -216,6 +222,22 @@ abstract contract RewardsDistributor is IRewardsDistributor {
   }
 
   /**
+   * @dev Calculates the boosted balance for an account.
+   * @param account The address of the account for which to calculate the boosted balance.
+   * @return The boosted balance of the account.
+   **/
+  function boostedBalance(address account, uint256 balance) public view returns (uint256) {
+    uint256 _boosted = (balance * 20) / 100;
+    uint256 _stake = staking.getVotes(account);
+
+    uint256 _adjusted = ((balance * _stake * 80) / maxBoostRequirement) / 100;
+
+    // because of this we are able to max out the boost by 5x
+    uint256 _boostedBalance = _boosted + _adjusted;
+    return _boostedBalance > balance ? balance : _boostedBalance;
+  }
+
+  /**
    * @dev Configure the _assets for a specific emission
    * @param rewardsInput The array of each asset configuration
    **/
@@ -318,6 +340,9 @@ abstract contract RewardsDistributor is IRewardsDistributor {
     uint256 newAssetIndex,
     uint256 assetUnit
   ) internal returns (uint256, bool) {
+    // recalculate user balance based on boost
+    userBalance = boostedBalance(user, userBalance);
+
     uint256 userIndex = rewardData.usersData[user].index;
     uint256 rewardsAccrued;
     bool dataUpdated;
@@ -346,6 +371,8 @@ abstract contract RewardsDistributor is IRewardsDistributor {
     uint256 userBalance,
     uint256 totalSupply
   ) internal {
+    // redo boosted balance
+
     uint256 assetUnit;
     uint256 numAvailableRewards = _assets[asset].availableRewardsCount;
     unchecked {
