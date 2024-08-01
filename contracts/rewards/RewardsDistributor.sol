@@ -227,14 +227,17 @@ abstract contract RewardsDistributor is IRewardsDistributor {
    * @return The boosted balance of the account.
    **/
   function boostedBalance(address account, uint256 balance) public view returns (uint256) {
-    uint256 _boosted = (balance * 20) / 100;
+    uint256 boostedBalance_ = balance / 5;
+
+    if (staking == IVotes(address(0))) {
+      return boostedBalance_;
+    }
+
     uint256 _stake = staking.getVotes(account);
 
-    uint256 _adjusted = ((balance * _stake * 80) / maxBoostRequirement) / 100;
+    boostedBalance_ += (balance * _stake / maxBoostRequirement) * 4 / 5;
 
-    // because of this we are able to max out the boost by 5x
-    uint256 _boostedBalance = _boosted + _adjusted;
-    return _boostedBalance > balance ? balance : _boostedBalance;
+    return boostedBalance_ > balance ? balance : boostedBalance_;
   }
 
   /**
