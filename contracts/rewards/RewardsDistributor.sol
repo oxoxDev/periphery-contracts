@@ -472,9 +472,11 @@ abstract contract RewardsDistributor is IRewardsDistributor {
     uint256 assetUnit = 10 ** _assets[userAssetBalance.asset].decimals;
     (, uint256 nextIndex) = _getAssetIndex(rewardData, userAssetBalance.totalSupply, assetUnit);
 
+    uint256 userBalance = boostedBalance(user, userAssetBalance.userBalance);
+    
     return
       _getRewards(
-        userAssetBalance.userBalance,
+        userBalance,
         nextIndex,
         rewardData.usersData[user].index,
         assetUnit
