@@ -18,7 +18,7 @@ import {IEACAggregatorProxy} from '../misc/interfaces/IEACAggregatorProxy.sol';
 contract RewardsController is RewardsDistributor, VersionedInitializable, IRewardsController {
   using SafeCast for uint256;
 
-  uint256 public constant REVISION = 3;
+  uint256 public constant REVISION = 4;
 
   // This mapping allows whitelisted addresses to claim on behalf of others
   // useful for contracts that hold tokens to be rewarded but don't have any native logic to claim Liquidity Mining rewards
@@ -110,6 +110,7 @@ contract RewardsController is RewardsDistributor, VersionedInitializable, IRewar
 
   /// @inheritdoc IRewardsController
   function handleAction(address user, uint256 totalSupply, uint256 userBalance) external override {
+    userBalance = boostedBalance(user, userBalance, totalSupply);
     _updateData(msg.sender, user, userBalance, totalSupply);
   }
 
@@ -200,7 +201,15 @@ contract RewardsController is RewardsDistributor, VersionedInitializable, IRewar
       (userAssetBalances[i].userBalance, userAssetBalances[i].totalSupply) = IScaledBalanceToken(
         assets[i]
       ).getScaledUserBalanceAndSupply(user);
+
+      // update balance with the boost
+      userAssetBalances[i].userBalance = boostedBalance(
+        user,
+        userAssetBalances[i].userBalance,
+        userAssetBalances[i].totalSupply
+      );
     }
+
     return userAssetBalances;
   }
 

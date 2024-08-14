@@ -8,6 +8,10 @@ import {IRewardsDistributor} from './interfaces/IRewardsDistributor.sol';
 import {RewardsDataTypes} from './libraries/RewardsDataTypes.sol';
 import {IVotes} from '../dependencies/openzeppelin/IVotes.sol';
 
+interface IVotesWithTotalSupply is IVotes {
+  function totalSupply() external view returns (uint256);
+}
+
 /**
  * @title RewardsDistributor
  * @notice Accounting contract to manage multiple staking distributions with multiple rewards
@@ -33,8 +37,7 @@ abstract contract RewardsDistributor is IRewardsDistributor {
   // Assets list
   address[] internal _assetsList;
 
-  uint256 public immutable maxBoostRequirement;
-  IVotes public immutable staking;
+  IVotesWithTotalSupply public immutable staking;
 
   modifier onlyEmissionManager() {
     require(msg.sender == EMISSION_MANAGER, 'ONLY_EMISSION_MANAGER');
@@ -43,8 +46,7 @@ abstract contract RewardsDistributor is IRewardsDistributor {
 
   constructor(address emissionManager, address _staking) {
     EMISSION_MANAGER = emissionManager;
-    staking = IVotes(_staking);
-    maxBoostRequirement = 50000000; // 50mil ZERO for max boost
+    staking = IVotesWithTotalSupply(_staking);
   }
 
   /// @inheritdoc IRewardsDistributor
@@ -226,15 +228,27 @@ abstract contract RewardsDistributor is IRewardsDistributor {
    * @param account The address of the account for which to calculate the boosted balance.
    * @return The boosted balance of the account.
    **/
-  function boostedBalance(address account, uint256 balance) public view returns (uint256) {
+  function boostedBalance(
+    address account,
+    uint256 balance,
+    uint256 totalSupply
+  ) public view returns (uint256) {
     uint256 _boosted = (balance * 20) / 100;
-    uint256 _stake = staking.getVotes(account);
+    // https://docs.curve.fi/curve_dao/liquidity-gauge-and-minting-crv/gauges/LiquidityGaugeV6/?h=boost#boosting-your-lp-tokens
 
-    uint256 _adjusted = ((balance * _stake * 80) / maxBoostRequirement) / 100;
+    uint256 _votes = staking.getVotes(account);
+    uint256 _votesTotal = staking.totalSupply();
 
-    // because of this we are able to max out the boost by 5x
-    uint256 _boostedBalance = _boosted + _adjusted;
-    return _boostedBalance > balance ? balance : _boostedBalance;
+    // 20% cut
+    uint256 lim = balance * 2e17;
+
+    // if voting_total > 0:
+    //     lim += L * voting_balance / voting_total * (100 - TOKENLESS_PRODUCTION) / 100
+    if (_votes > 0) {
+      lim += (((totalSupply * _votes) / _votesTotal) * (100 - 20)) / 100;
+    }
+
+    return lim > _boosted ? _boosted : lim;
   }
 
   /**
@@ -340,9 +354,6 @@ abstract contract RewardsDistributor is IRewardsDistributor {
     uint256 newAssetIndex,
     uint256 assetUnit
   ) internal returns (uint256, bool) {
-    // recalculate user balance based on boost
-    userBalance = boostedBalance(user, userBalance);
-
     uint256 userIndex = rewardData.usersData[user].index;
     uint256 rewardsAccrued;
     bool dataUpdated;
